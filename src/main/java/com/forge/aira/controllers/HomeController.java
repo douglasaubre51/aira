@@ -3,6 +3,7 @@ package com.forge.aira.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.forge.aira.services.UserService;
@@ -32,8 +33,11 @@ public class HomeController {
             // load html
             return "index";
 
+        } catch (ResourceAccessException ex) {
+            model.addAttribute("waguri_status", "dead");
+            return "index";
+
         } catch (Exception ex) {
-            model.addAttribute("waguri_status", "disconnected!");
             System.out.println("getHomeView error:\n" + ex.getMessage());
             return "index";
         }

@@ -18,17 +18,11 @@ public class UserService {
     public void getUsers(Model model) {
 
         String uri = "/get-all-users";
-        System.out.println("getting user details!");
         RestTemplate template = new RestTemplate();
         UserDtoList dto = template.getForObject(host + uri, UserDtoList.class);
-        System.out.println(dto == null);
 
         List<UserDto> users = new ArrayList<>();
         users = dto.getUsers();
-
-        users.forEach(user -> {
-            System.out.println("UserName: " + user.UserName);
-        });
 
         model.addAttribute("user_list", users);
     }

@@ -2,24 +2,55 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <link href="../static/index.css" rel="stylesheet" />
+    <link th:href="@{styles/index.css}" rel="stylesheet" />
     <title>
         Home
     </title>
 </head>
 
 <body>
-    <h1>
-        Welcome to Waguri
-    </h1>
-    <!-- waguri status -->
-    <h1 th:text="${waguri_status}"></h1>
 
-    <!-- user details -->
-    <tr th:each="user : ${user_list}">
-        <td th:text="${user.Email}"></td>
-    </tr>
+    <div class="grid-container">
+        <!--hero section-->
+        <div class="hero-container">
+            <span class="hero-tag">
+                waguri
+            </span>
+        </div>
+
+        <!-- waguri status -->
+        <div class="conn-container">
+            <span class="conn">connection</span>
+            <span id="waguriStatus" class='conn-lost' th:text="${waguri_status}"></span>
+        </div>
+
+        <!-- user details -->
+        <div class="details-container">
+            <table>
+                <tr class="header-row">
+                    <th>username</th>
+                    <th>email confirmed</th>
+                </tr>
+                <tr th:each="user : ${user_list}">
+                    <td th:text="${user.UserName}"></td>
+                    <td th:text="${user.EmailConfirmed}"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
 
 </body>
+
+<script>
+    console.log('checking waguri status ...')
+    const status = document.getElementById("waguriStatus")
+    console.log(status.innerHTML)
+    if (status.innerHTML == 'live') {
+        status.style.color = 'lightGreen'
+    }
+    else
+        status.style.color = 'red'
+</script>
 
 </html>
