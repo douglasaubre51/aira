@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <link href="../static/index.css" rel="stylesheet" />
+    <title>
+        Home
+    </title>
+</head>
+
+<body>
+    <h1>
+        Welcome to Waguri
+    </h1>
+    <!-- waguri status -->
+    <h1 th:text="${waguri_status}"></h1>
+
+    <!-- user details -->
+    <tr th:each="user : ${user_list}">
+        <td th:text="${user.Email}"></td>
+    </tr>
+
+</body>
+
+</html>
