@@ -12,11 +12,15 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+
+    user-select: none;
+    letter-spacing: 1.5px;
 }
 
 body {
     font-family: Poppins-Light;
     background-color: #282828;
+
 }
 
 .grid-container {
@@ -24,7 +28,7 @@ body {
 
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     gap: 40px;
 
     min-height: 100vh;
@@ -84,13 +88,135 @@ body {
     border-radius: 20px;
 }
 
+.navbar {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+
+    list-style-type: none;
+}
+
+.navbar button {
+    cursor: pointer;
+
+    font-size: 16px;
+    font-family: Poppins-Light;
+    color: whitesmoke;
+    background-color: transparent;
+
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+
+    transition-duration: .2s;
+
+    margin-bottom: 40px;
+}
+
+.navbar button:hover {
+    background-color: grey;
+    transition-duration: .2s;
+}
+
 table {
     text-align: left;
     width: 100%;
 }
 
-
 th {
     font-size: 30px;
     padding: 20px 0px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type='text'] {
+    border-radius: 4px;
+    outline: none;
+    border: none;
+
+    padding: 5px 0px;
+    max-width: fit-content;
+}
+
+input[type='submit'] {
+    background-color: black;
+    color: whitesmoke;
+
+    font-family: Poppins;
+
+    border: none;
+    border-radius: 4px;
+
+    padding: 10px 0px;
+
+    width: 100%;
+
+    transition-duration: .2s;
+}
+
+
+input[type='submit']:hover {
+    background-color: white;
+    color: black;
+
+    transition-duration: .2s;
+    cursor: pointer;
+}
+
+.error-container {
+    grid-row: 4/4;
+    grid-column: 1/span 2;
+
+    background-color: #404040;
+    border-radius: 20px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error-header {
+    font-size: 16px;
+    font-family: Poppins-Light;
+    color: whitesmoke;
+}
+
+.error-message {
+    font-size: 12px;
+    font-family: Poppins-Light;
+    color: lightcoral;
+    line-height: 2;
+}
+
+.error-tab-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.clear-error-btn {
+    background-color: transparent;
+    border: none;
+    color: whitesmoke;
+
+    font-family: Poppins;
+    font-size: 10px;
+}
+
+.clear-error-btn:hover {
+    color: red;
+    cursor: pointer;
 }
