@@ -1,8 +1,8 @@
 package com.forge.aira.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,25 +14,29 @@ import com.forge.aira.wrappers.UserDtoList;
 
 @Service
 public class UserService {
+
+    @Value("${WAGURI_BASE_URI}")
+    private String host;
+
     private final RestTemplate _template;
 
     public UserService() {
         _template = new RestTemplate();
     }
 
-    public List<UserDto> getUsers(String host) {
+    public List<UserDto> getUsers() {
 
-        String uri = "/get-all-users";
-        RestTemplate template = new RestTemplate();
-        UserDtoList dto = template.getForObject(host + uri, UserDtoList.class);
+        System.out.println("hi i am getUsers");
+        System.out.println(host);
+        String uri = "/user/all";
+        UserDtoList dto = _template.getForObject(host + uri, UserDtoList.class);
 
         return dto.getUsers();
     }
 
-    public boolean removeUserByUserName(
-            String userName,
-            String host) {
+    public boolean removeUserByUserName(String userName) {
 
+        System.out.println("hi i am removeUser");
         String uri = "/user/delete/" + userName;
 
         ResponseEntity<Object> response = _template.getForEntity(host + uri, Object.class);
@@ -44,11 +48,10 @@ public class UserService {
         return true;
     }
 
-    public boolean createNewUser(
-            PrimaryFormDto dto,
-            String host) {
+    public boolean createNewUser(PrimaryFormDto dto) {
 
-        String uri = "/sign-up";
+        System.out.println("hi i am createNewUser");
+        String uri = "/user/create";
         ResponseEntity<PrimaryFormDto> response = _template
                 .postForEntity(host + uri, dto, PrimaryFormDto.class);
         if (response.getStatusCode().is2xxSuccessful() == false) {
@@ -58,9 +61,7 @@ public class UserService {
         return true;
     }
 
-    public boolean confirmUserByUserName(
-            String userName,
-            String host) {
+    public boolean confirmUserByUserName(String userName) {
 
         String uri = "/user/confirm/" + userName;
 

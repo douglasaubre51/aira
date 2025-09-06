@@ -9,142 +9,54 @@
 </head>
 
 <body>
-
     <div class="grid-container">
-        <!--hero section-->
-        <div class="hero-container">
-            <span class="hero-tag">
-                waguri
+
+        <div class="sidebar">
+            <span class="sidebar-header">
+                Manage
             </span>
-        </div>
 
-        <!-- waguri status -->
-        <div class="conn-container">
-            <span class="conn">connection</span>
-            <span id="waguriStatus" class='conn-lost' th:text="${waguri_status}"></span>
-        </div>
-
-        <!-- user details -->
-        <div class="details-container">
-
-            <!--nav bar-->
-            <div class="navbar-container">
-                <ul class="navbar">
-                    <li id="gotoUserDetails">
-                        <button th:onclick="gotoUserDetails()" id="detailsTag">
-                            User details
-                        </button>
-                    </li>
-                    <li id="gotoCreateUser">
-                        <button th:onclick="gotoCreateUser()" id="createTag">
-                            Create User
-                        </button>
-                    </li>
-                    <li id="gotoConfirmUser">
-                        <button th:onclick="gotoConfirmUser()" id="confirmTag">
-                            Confirm User
-                        </button>
-                    </li>
-                    <li id="gotoRemoveUser">
-                        <button th:onclick="gotoRemoveUser()" id="removeTag">
-                            Remove User
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- user details-->
-            <table id="detailsTable">
-                <tr class="header-row">
-                    <th>username</th>
-                    <th>email confirmed</th>
-                </tr>
-                <tr th:each="user : ${user_list}">
-                    <td th:text="${user.UserName}"></td>
-                    <td th:text="${user.EmailConfirmed}"></td>
-                </tr>
-            </table>
-
-            <div id="createUser" class="create-user-container">
-                <form action="#" th:action="@{/create-user}" th:object="${create_user_form}" method="post">
-                    <div class="form-group">
-                        <span class="label">
-                            Email id
-                        </span>
-                        <input type="text" th:field="*{Email}" />
-                    </div>
-
-                    <div class="form-group">
-                        <span class="label">
-                            First name
-                        </span>
-                        <input type="text" th:field="*{FirstName}" />
-                    </div>
-
-                    <div class="form-group">
-                        <span class="label">
-                            Last name
-                        </span>
-                        <input type="text" th:field="*{LastName}" />
-                    </div>
-
-                    <div class="form-group">
-                        <span class="label">
-                            Password
-                        </span>
-                        <input type="text" th:field="*{Password}" />
-                    </div>
-
-                    <div class="form-group">
-                        <span class="label">
-                            Project id
-                        </span>
-                        <input type="text" th:field="*{ProjectId}" />
-                    </div>
-
-                    <input type="submit" />
-                </form>
-            </div>
-
-            <div id="confirmUser" class="confirm-user-container">
-                <span class="label">
-                    username
-                </span>
-                <form action="#" th:action="@{/confirm-user}" th:object="${confirm_user_form}" method="post">
-                    <input type="text" th:field="*{UserName}" />
-                    <input type="submit" />
-                </form>
-            </div>
-
-            <div id="removeUser" class="remove-user-container">
-                <span class="label">
-                    username
-                </span>
-                <form action="#" th:action="@{/remove-user}" th:object="${FieldDto}" method="post">
-                    <input type="text" th:field="*{UserName}" />
-                    <input type="submit" />
-                </form>
-            </div>
-
-        </div>
-
-        <!--error section-->
-        <div class="error-container">
-            <div class="error-tab-container">
-                <span class="error-header">
-                    Error messages
-                </span>
-
-                <button class="clear-error-btn" th:onclick="|window.location.href='@{/clear-error-messages}'|">
-                    clear
+            <div class="nav-btn-group">
+                <button class="nav-btn" id="users-view">
+                    Users
+                </button>
+                <button class="nav-btn" id="projects-view">
+                    Projects
                 </button>
             </div>
+        </div>
 
-            <span class="error-message" th:text="${error_message}">
-            </span>
+
+        <div class="main-section">
+
+            <div class="top-bar">
+                <span class="hero-header" id="waguri-status">
+                    waguri
+                </span>
+            </div>
+
+
+            <div class="content-group">
+
+            </div>
+
+            <div class="error-container">
+
+                <span class="error-header">
+                    message
+                </span>
+            </div>
         </div>
     </div>
 </body>
-<script type="text/javascript" th:src="@{js/index.js}"></script>
+<script>
+
+    console.log(`checking waguri connection ...`)
+    const waguriStatus = '[[${waguri_status}]]'
+
+    console.log(`waguri status: ${waguriStatus}`)
+    if (waguriStatus == 'live')
+        document.getElementById('waguri-status').style.color = 'green'
+</script>
 
 </html>

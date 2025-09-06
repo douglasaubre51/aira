@@ -1,8 +1,6 @@
 package com.forge.aira.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,17 +10,18 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.forge.aira.dtos.PrimaryFormDto;
 import com.forge.aira.dtos.SecondaryFormDto;
-import com.forge.aira.dtos.UserDto;
 import com.forge.aira.services.ApiService;
 import com.forge.aira.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping()
 public class HomeController {
 
-    String host = "http://localhost:5000";
-    String errorMessage;
+    @Value("${WAGURI_BASE_URI}")
+    private String host;
+    private String errorMessage;
 
     private final UserService _userService;
     private final ApiService _apiService;
@@ -30,45 +29,38 @@ public class HomeController {
     public HomeController(
             UserService userService,
             ApiService apiService) {
+
         _userService = userService;
         _apiService = apiService;
         errorMessage = new String();
     }
 
+    // home view
     @GetMapping("/")
     public String getHomeView(Model model) {
         try {
-            String result = _apiService.getApiStatus(host);
-            model.addAttribute("waguri_status", result);
 
-            List<UserDto> users = _userService.getUsers(host);
-            model.addAttribute("user_list", users);
-
-            PrimaryFormDto createUserFormDto = new PrimaryFormDto();
-            model.addAttribute("create_user_form", createUserFormDto);
-
-            SecondaryFormDto confirmUserDto = new SecondaryFormDto();
-            model.addAttribute("confirm_user_form", confirmUserDto);
-
-            SecondaryFormDto formDto = new SecondaryFormDto();
-            model.addAttribute("FieldDto", formDto);
-
-            model.addAttribute("error_message", errorMessage);
+            boolean result = _apiService.getApiStatus();
+            if (!result)
+                model.addAttribute("waguri_status", "lost");
+            else
+                model.addAttribute("waguri_status", "live");
 
             return "index";
 
         } catch (ResourceAccessException ex) {
-            model.addAttribute("waguri_status", "lost");
-            model.addAttribute("user_list", new ArrayList<UserDto>());
-            model.addAttribute("create_user_form", new PrimaryFormDto());
-            model.addAttribute("confirm_user_form", new SecondaryFormDto());
-            model.addAttribute("FieldDto", new SecondaryFormDto());
 
+            model.addAttribute("waguri_status", "lost");
+
+            System.out.println("conn lost: " + ex.getMessage());
             return "index";
 
         } catch (Exception ex) {
-            System.out.println("getHomeView error:\n" + ex.getMessage());
-            return new String("something went wrong!");
+
+            model.addAttribute("msg", ex.getMessage());
+
+            System.out.println("getHomeView error: " + ex.getMessage());
+            return "error";
         }
     }
 
@@ -85,7 +77,7 @@ public class HomeController {
         try {
 
             System.out.println("removing user: " + dto.getUserName());
-            boolean result = _userService.removeUserByUserName(dto.getUserName(), host);
+            boolean result = _userService.removeUserByUserName(dto.getUserName());
             if (result == false) {
                 errorMessage = "user can't be removed!";
                 return new RedirectView("/");
@@ -104,7 +96,7 @@ public class HomeController {
     public RedirectView createUser(@ModelAttribute("create_user_form") PrimaryFormDto dto) {
         try {
 
-            boolean result = _userService.createNewUser(dto, host);
+            boolean result = _userService.createNewUser(dto);
             if (result == false) {
                 errorMessage = "couldnt create new user!";
                 return new RedirectView("/");
@@ -124,7 +116,7 @@ public class HomeController {
         try {
 
             System.out.println("confirming user: " + dto.getUserName());
-            boolean result = _userService.confirmUserByUserName(dto.getUserName(), host);
+            boolean result = _userService.confirmUserByUserName(dto.getUserName());
             if (result == false) {
                 errorMessage = "user can't be confirmed!";
                 return new RedirectView("/");
@@ -135,6 +127,7 @@ public class HomeController {
                             + " email has been sent to " + dto.UserName + " !");
 
             return new RedirectView("/");
+
         } catch (Exception ex) {
 
             errorMessage = "confirmUser error: " + ex.getMessage();
