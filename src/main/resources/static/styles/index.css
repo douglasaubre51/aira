@@ -20,6 +20,7 @@
 
 :root {
     --light-turqoise: #87ceeb;
+    --main-bg: #efefef;
 }
 
 * {
@@ -33,7 +34,7 @@
 
 body {
     font-family: Poppins-Bold;
-    background-color: #efefef;
+    background-color: var(--main-bg);
     min-width: 1000px;
 }
 
@@ -146,17 +147,20 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 400px;
-    height: max-content;
+    padding: 60px 60px;
+
+    background-color: var(--main-bg);
 
     border: none;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 10px;
 }
 
-#add-person-popover:popover-open {
+form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
 }
 
@@ -164,6 +168,35 @@ body {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.label {
+    font-family: Poppins-Light;
+    font-size: 10px;
+    color: grey;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 10px 0px;
+    background-color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 12px;
+    font-family: Poppins-Light;
+
+    transition-duration: .2s;
+}
+
+.primary-btn:focus,
+.primary-btn:hover {
+    transition-duration: .2s;
+
+    outline: none;
+    background-color: var(--light-turqoise);
+    color: white;
 }
 
 .hero-header {
@@ -180,10 +213,12 @@ body {
     border: none;
 }
 
-input[type='text'] {
+input[type='text'],
+input[type='password'] {
     border-radius: 4px;
     outline: none;
     border: none;
+
 
     padding: 5px 0px;
     max-width: fit-content;
