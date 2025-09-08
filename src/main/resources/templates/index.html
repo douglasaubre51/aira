@@ -10,7 +10,7 @@
 
 <body>
     <div class="grid-container">
-
+        <!-- side bar -->
         <div class="sidebar">
             <span class="sidebar-header">
                 Manage
@@ -24,33 +24,81 @@
                     Projects
                 </button>
             </div>
+
         </div>
-
-
+        <!-- main section -->
         <div class="main-section">
-
+            <!-- top bar -->
             <div class="top-bar">
                 <span class="hero-header" id="waguri-status">
                     waguri
                 </span>
+                <!-- add person btn -->
+                <button id="add-person-btn" popovertarget="add-person-popover">
+                    <img th:src="@{/icons/person_add.svg}" id="add-person-btn-icon" />
+                </button>
+                <!-- add person modal -->
+                <div popover id="add-person-popover">
+                    <form action="#" th:action="@{/user/create}" th:object="${primary_form_dto}" method="post">
+                        <div class="form-group">
+                            <span class="label">
+                                First name
+                            </span>
+                            <input type="text" th:field="*{FirstName}">
+                        </div>
+                        <div class="form-group">
+                            <span class="label">
+                                Last name
+                            </span>
+                            <input type="text" th:field="*{LastName}">
+                        </div>
+                        <div class="form-group">
+                            <span class="label">
+                                Email id
+                            </span>
+                            <input th:field="*{Email}" type="text">
+                        </div>
+                        <div class="form-group">
+                            <span class="label">
+                                Password
+                            </span>
+                            <input th:field="*{Password}" type="password">
+                        </div>
+                        <div class="form-group">
+                            <span class="label">
+                                Project id
+                            </span>
+                            <input th:field="*{ProjectId}" type="text">
+                        </div>
+
+                        <button type="submit">
+                            add user
+                        </button>
+                    </form>
+                </div>
             </div>
 
+            <!-- web view -->
+            <iframe th:src="@{/user/view}" id="main-view"></iframe>
 
-            <div class="content-group">
-
-            </div>
-
+            <!-- status view -->
             <div class="error-container">
+                <div class="error-tab-container">
+                    <span class="error-header">
+                        message
+                    </span>
+                    <button class="clear-error-btn" th:onclick="|window.location.href='@{/message/clear}'|">
+                        clear
+                    </button>
 
-                <span class="error-header">
-                    message
-                </span>
+                </div>
+                <span th:text="${message}" class="error-message"></span>
             </div>
+
         </div>
     </div>
 </body>
 <script>
-
     console.log(`checking waguri connection ...`)
     const waguriStatus = '[[${waguri_status}]]'
 
@@ -58,5 +106,7 @@
     if (waguriStatus == 'live')
         document.getElementById('waguri-status').style.color = 'green'
 </script>
+
+<script type="text/javascript" th:src="@{js/index.js}"></script>
 
 </html>

@@ -19,7 +19,6 @@
 }
 
 :root {
-
     --light-turqoise: #87ceeb;
 }
 
@@ -33,14 +32,12 @@
 }
 
 body {
-
     font-family: Poppins-Bold;
     background-color: #efefef;
     min-width: 1000px;
 }
 
 .grid-container {
-
     display: grid;
     grid-template-columns: 1fr 2.5fr;
     grid-template-rows: 1fr;
@@ -49,7 +46,6 @@ body {
 }
 
 .sidebar {
-
     background-color: #f8f8f8;
     padding: 40px 30px 5px 30px;
 
@@ -61,20 +57,17 @@ body {
 }
 
 .sidebar-header {
-
     font-family: Poppins;
     font-size: 16px;
 }
 
 .nav-btn-group {
-
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
 .nav-btn {
-
     width: 100%;
     padding: 10px 0px;
     padding-left: 20px;
@@ -91,13 +84,12 @@ body {
 }
 
 .nav-btn-active {
-
     background-color: var(--light-turqoise);
+    color: whitesmoke;
 }
 
 .nav-btn:focus,
 .nav-btn:hover {
-
     transition-duration: .2s;
 
     outline: none;
@@ -106,7 +98,6 @@ body {
 }
 
 .main-section {
-
     padding: 20px 40px;
 
     display: grid;
@@ -114,23 +105,79 @@ body {
     grid-template-rows: 100px 2fr 1fr;
 }
 
-.hero-header {
-
-    color: lightcoral;
-    font-size: 40px;
-    font-family: Poppins-Light;
+.top-bar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.form-modal {
+#add-person-btn-icon {
+    width: 25px;
+    height: 25px;
+}
+
+#add-person-btn {
+
+    width: fit-content;
+    height: fit-content;
+
+    outline: none;
+    border: none;
+    align-self: flex-end;
+    margin-right: 24px;
+
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+
+    transition-duration: .2s;
+}
+
+#add-person-btn:hover {
+    transition-duration: .2s;
+    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 1px;
+}
+
+/* add person modal */
+#add-person-popover {
+    display: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 400px;
+    height: max-content;
+
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 10px;
+}
+
+#add-person-popover:popover-open {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.hero-header {
+    color: lightcoral;
+    font-size: 40px;
+    font-family: Poppins-Light;
+}
+
+/* iframe */
+#main-view {
+    height: 90%;
+    width: 100%;
+
+    border: none;
 }
 
 input[type='text'] {
@@ -192,7 +239,7 @@ input[type='submit']:hover {
 .error-message {
     font-size: 12px;
     font-family: Poppins-Light;
-    color: lightcoral;
+    color: grey;
     line-height: 2;
 }
 
@@ -205,7 +252,7 @@ input[type='submit']:hover {
 .clear-error-btn {
     background-color: transparent;
     border: none;
-    color: whitesmoke;
+    color: black;
 
     font-family: Poppins;
     font-size: 10px;
