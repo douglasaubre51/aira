@@ -21,124 +21,128 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
-    String host = "http://localhost:5020";
-    String errorMessage;
+	String host = "http://localhost:5020";
+	String errorMessage;
 
-    private final UserService _userService;
-    private final ApiService _apiService;
+	private final UserService _userService;
+	private final ApiService _apiService;
 
-    public HomeController(
-            UserService userService,
-            ApiService apiService) {
-        _userService = userService;
-        _apiService = apiService;
-        errorMessage = new String();
-    }
+	public HomeController(
+			UserService userService,
+			ApiService apiService) {
+		_userService = userService;
+		_apiService = apiService;
+		errorMessage = new String();
+	}
 
-    @GetMapping("/")
-    public String getHomeView(Model model) {
-        try {
-            String result = _apiService.getApiStatus(host);
-            model.addAttribute("waguri_status", result);
+	@GetMapping("/")
+		public String getHomeView(Model model) {
+			try {
+				String result = _apiService.getApiStatus(host);
+				model.addAttribute("waguri_status", result);
 
-            List<UserDto> users = _userService.getUsers(host);
-            model.addAttribute("user_list", users);
+				List<UserDto> users = _userService.getUsers(host);
+				model.addAttribute("user_list", users);
 
-            PrimaryFormDto createUserFormDto = new PrimaryFormDto();
-            model.addAttribute("create_user_form", createUserFormDto);
+				PrimaryFormDto createUserFormDto = new PrimaryFormDto();
+				model.addAttribute("create_user_form", createUserFormDto);
 
-            SecondaryFormDto confirmUserDto = new SecondaryFormDto();
-            model.addAttribute("confirm_user_form", confirmUserDto);
+				SecondaryFormDto confirmUserDto = new SecondaryFormDto();
+				model.addAttribute("confirm_user_form", confirmUserDto);
 
-            SecondaryFormDto formDto = new SecondaryFormDto();
-            model.addAttribute("FieldDto", formDto);
+				SecondaryFormDto formDto = new SecondaryFormDto();
+				model.addAttribute("FieldDto", formDto);
 
-            model.addAttribute("error_message", errorMessage);
+				model.addAttribute("error_message", errorMessage);
 
-            return "index";
+				return "index";
 
-        } catch (ResourceAccessException ex) {
-            model.addAttribute("waguri_status", "lost");
-            model.addAttribute("user_list", new ArrayList<UserDto>());
-            model.addAttribute("create_user_form", new PrimaryFormDto());
-            model.addAttribute("confirm_user_form", new SecondaryFormDto());
-            model.addAttribute("FieldDto", new SecondaryFormDto());
+			} catch (ResourceAccessException ex) {
+				model.addAttribute("waguri_status", "lost");
+				model.addAttribute("user_list", new ArrayList<UserDto>());
+				model.addAttribute("create_user_form", new PrimaryFormDto());
+				model.addAttribute("confirm_user_form", new SecondaryFormDto());
+				model.addAttribute("FieldDto", new SecondaryFormDto());
 
-            return "index";
+				return "index";
 
-        } catch (Exception ex) {
-            System.out.println("getHomeView error:\n" + ex.getMessage());
-            return new String("something went wrong!");
-        }
-    }
+			} catch (Exception ex) {
+				System.out.println("getHomeView error:\n" + ex.getMessage());
+				return new String("something went wrong!");
+			}
+		}
 
-    @GetMapping("/clear-error-messages")
-    public RedirectView getMethodName() {
-        errorMessage = "";
-        return new RedirectView("/");
-    }
+	@GetMapping("/clear-error-messages")
+		public RedirectView getMethodName() {
+			errorMessage = "";
+			return new RedirectView("/");
+		}
 
-    @PostMapping("/remove-user")
-    public RedirectView removeUser(
-            @ModelAttribute("FieldDto") SecondaryFormDto dto,
-            Model model) {
-        try {
+	@PostMapping("/remove-user")
+		public RedirectView removeUser(
+				@ModelAttribute("FieldDto") SecondaryFormDto dto,
+				Model model) {
+			try {
 
-            System.out.println("removing user: " + dto.getUserName());
-            boolean result = _userService.removeUserByUserName(dto.getUserName(), host);
-            if (result == false) {
-                errorMessage = "user can't be removed!";
-                return new RedirectView("/");
-            }
+				System.out.println("removing user: " + dto.getUserName());
+				boolean result = _userService.removeUserByUserName(dto.getUserName(), host);
+				if (result == false) {
+					errorMessage = "user can't be removed!";
+					return new RedirectView("/");
+				}
 
-            System.out.println("user" + dto.getUserName() + " removed successfully!");
-            return new RedirectView("/");
-        } catch (Exception ex) {
+				System.out.println("user" + dto.getUserName() + " removed successfully!");
+				return new RedirectView("/");
+			} catch (Exception ex) {
 
-            errorMessage = "removeUser error: " + ex.getMessage();
-            return new RedirectView("/");
-        }
-    }
+				errorMessage = "removeUser error: " + ex.getMessage();
+				return new RedirectView("/");
+			}
+		}
 
-    @PostMapping("/create-user")
-    public RedirectView createUser(@ModelAttribute("create_user_form") PrimaryFormDto dto) {
-        try {
+	@PostMapping("/create-user")
+		public RedirectView createUser(@ModelAttribute("create_user_form") PrimaryFormDto dto) {
+			try {
 
-            boolean result = _userService.createNewUser(dto, host);
-            if (result == false) {
-                errorMessage = "couldnt create new user!";
-                return new RedirectView("/");
-            }
+				System.out.println("creating user");
+				System.out.println("password: "+ dto.Password);
 
-            System.out.println("user" + dto.getEmail() + " created successfully!");
-            return new RedirectView("/");
-        } catch (Exception ex) {
-            errorMessage = "createUser error: " + ex.getMessage();
-            return new RedirectView("/");
-        }
-    }
+				boolean result = _userService.createNewUser(dto, host);
+				if (result == false) {
+					errorMessage = "couldnt create new user!";
+					return new RedirectView("/");
+				}
 
-    @PostMapping("/confirm-user")
-    public RedirectView confirmUser(
-            @ModelAttribute("confirm_user_form") SecondaryFormDto dto) {
-        try {
+				System.out.println("user" + dto.getEmail() + " created successfully!");
+				return new RedirectView("/");
 
-            System.out.println("confirming user: " + dto.getUserName());
-            boolean result = _userService.confirmUserByUserName(dto.getUserName(), host);
-            if (result == false) {
-                errorMessage = "user can't be confirmed!";
-                return new RedirectView("/");
-            }
+			} catch (Exception ex) {
+				errorMessage = "createUser error: " + ex.getMessage();
+				return new RedirectView("/");
+			}
+		}
 
-            System.out.println(
-                    "user " + dto.getUserName()
-                            + " email has been sent to " + dto.UserName + " !");
+	@PostMapping("/confirm-user")
+		public RedirectView confirmUser(
+				@ModelAttribute("confirm_user_form") SecondaryFormDto dto) {
+			try {
 
-            return new RedirectView("/");
-        } catch (Exception ex) {
+				System.out.println("confirming user: " + dto.getUserName());
+				boolean result = _userService.confirmUserByUserName(dto.getUserName(), host);
+				if (result == false) {
+					errorMessage = "user can't be confirmed!";
+					return new RedirectView("/");
+				}
 
-            errorMessage = "confirmUser error: " + ex.getMessage();
-            return new RedirectView("/");
-        }
-    }
+				System.out.println(
+						"user " + dto.getUserName()
+						+ " email has been sent to " + dto.UserName + " !");
+
+				return new RedirectView("/");
+			} catch (Exception ex) {
+
+				errorMessage = "confirmUser error: " + ex.getMessage();
+				return new RedirectView("/");
+			}
+		}
 }
