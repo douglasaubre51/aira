@@ -22,7 +22,7 @@ public class UserService {
 
     public List<UserDto> getUsers(String host) {
 
-        String uri = "/get-all-users";
+        String uri = "/user/all";
         RestTemplate template = new RestTemplate();
         UserDtoList dto = template.getForObject(host + uri, UserDtoList.class);
 
@@ -48,7 +48,7 @@ public class UserService {
             PrimaryFormDto dto,
             String host) {
 
-        String uri = "/sign-up";
+        String uri = "/user/create";
         ResponseEntity<PrimaryFormDto> response = _template
                 .postForEntity(host + uri, dto, PrimaryFormDto.class);
         if (response.getStatusCode().is2xxSuccessful() == false) {

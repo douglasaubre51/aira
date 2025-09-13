@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
-    String host = "http://localhost:5000";
+    String host = "http://localhost:5020";
     String errorMessage;
 
     private final UserService _userService;
