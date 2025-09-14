@@ -1,28 +1,25 @@
 <!doctype html>
 <html xmlns:th="https://www/thymeleaf.org">
   <head>
-    <style>
-      .project-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .row-group {
-        display: flex;
-        flex-direction: row;
-        gap: 100px;
-
-        padding: 10px 5px;
-      }
-    </style>
+    <link th:href="@{/styles/projects.css}" rel="stylesheet" />
   </head>
   <body>
-    <div th:each="project : ${project_list}" class="project-container">
-      <div class="row-group">
-        <span th:text="${project.ProjectId}" class="id-text"></span>
-        <span th:text="${project.Url}" class="url-text"></span>
-        <span th:text="${project.ApiUrl}" class="url-text"></span>
-      </div>
-    </div>
+    <table>
+      <tr>
+        <th>Project id</th>
+        <th>Project url</th>
+        <th>Api url</th>
+      </tr>
+      <tr th:each="project : ${project_list}" class="project-container">
+        <td th:text="${project.ProjectId}" class="id-text"></td>
+        <td th:text="${project.Url}" class="url-text"></td>
+        <td th:text="${project.ApiUrl}" class="url-text"></td>
+        <td class="delete-btn-row">
+          <a th:href="@{/project/delete/{id}(id=${project.ProjectId})}"
+            >delete</a
+          >
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
