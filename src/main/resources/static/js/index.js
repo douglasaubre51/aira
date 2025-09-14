@@ -1,22 +1,31 @@
-console.log('index.js is running ...');
+console.log("index.js is running ...");
 
-const userNavBtn = document.getElementById('users-view')
-const projectNavBtn = document.getElementById('projects-view')
-const mainView = document.getElementById('main-view')
-const airaBaseUrI = window.location.href
-// @ts-ignore
+// nav btn toggle webview
+
+const userNavBtn = document.getElementById("users-view");
+const projectNavBtn = document.getElementById("projects-view");
+
+const mainView = document.getElementById("main-view");
+
+const addPersonBtn = document.getElementById("add-person-btn");
+const addProjectBtn = document.getElementById("add-project-btn");
+
+const airaBaseUrI = window.location.href;
+
 userNavBtn.onclick = () => {
-    console.log('clicked users-view!')
+  projectNavBtn.classList.remove("nav-btn-active");
+  addProjectBtn.style.display = "none";
 
-    projectNavBtn?.classList.remove('nav-btn-active')
-    userNavBtn?.classList.add('nav-btn-active')
-    mainView?.setAttribute('src', airaBaseUrI + 'user/view')
-}
-// @ts-ignore
+  userNavBtn.classList.add("nav-btn-active");
+  mainView.setAttribute("src", airaBaseUrI + "user/view");
+  addPersonBtn.style.display = "initial";
+};
+
 projectNavBtn.onclick = () => {
-    console.log('clicked projects-view!')
+  userNavBtn.classList.remove("nav-btn-active");
+  addPersonBtn.style.display = "none";
 
-    userNavBtn?.classList.remove('nav-btn-active')
-    projectNavBtn?.classList.add('nav-btn-active')
-    mainView?.setAttribute('src', airaBaseUrI + 'projects')
-}
+  projectNavBtn.classList.add("nav-btn-active");
+  mainView.setAttribute("src", airaBaseUrI + "project/all");
+  addProjectBtn.style.display = "initial";
+};

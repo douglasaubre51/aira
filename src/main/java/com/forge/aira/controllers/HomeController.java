@@ -1,20 +1,16 @@
 package com.forge.aira.controllers;
 
-import java.util.List;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.*;
+import org.springframework.web.servlet.view.*;
 
-import com.forge.aira.dtos.PrimaryFormDto;
-import com.forge.aira.dtos.UserDto;
-import com.forge.aira.services.ApiService;
-import com.forge.aira.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.forge.aira.dtos.*;
+import com.forge.aira.services.*;
 
 @Controller
 public class HomeController {
@@ -25,17 +21,24 @@ public class HomeController {
 
     private final UserService _userService;
     private final ApiService _apiService;
+	private final ProjectService _projectService;
 
     public HomeController(
             UserService userService,
-            ApiService apiService) {
+            ApiService apiService,
+			ProjectService projectService
+			) {
 
         _userService = userService;
         _apiService = apiService;
+		_projectService = projectService;
+
         message = new String();
     }
 
-    // home view
+	// user endpoints
+
+    // index view
     @GetMapping("/")
     public String getHomeView(Model model) {
         try {
@@ -43,6 +46,7 @@ public class HomeController {
             // init attributes
             model.addAttribute("message", message);
             model.addAttribute("primary_form_dto", new PrimaryFormDto());
+            model.addAttribute("project_form_dto", new ProjectFormDto());
 
             boolean result = _apiService.getApiStatus();
             if (!result)
@@ -55,14 +59,12 @@ public class HomeController {
         } catch (ResourceAccessException ex) {
 
             model.addAttribute("waguri_status", "lost");
-
             System.out.println("conn lost: " + ex.getMessage());
             return "index";
 
         } catch (Exception ex) {
 
             model.addAttribute("message", ex.getMessage());
-
             System.out.println("getHomeView error: " + ex.getMessage());
             return "error";
         }
@@ -71,21 +73,21 @@ public class HomeController {
     @PostMapping("/user/create")
     public RedirectView createUser(@ModelAttribute("primary_form_dto") PrimaryFormDto dto) {
         try {
-
             System.out.println("triggered create user!");
+
             boolean result = _userService.createNewUser(dto);
             if (result == false)
                 message += "couldnot create new user!";
             else
-                message = "user created successfully!";
+                message += "user created successfully!";
 
             return new RedirectView("/");
 
         } catch (Exception ex) {
-            message = ex.getMessage();
+
+			message += ex.getMessage();
             return new RedirectView("/");
         }
-
     }
 
     @GetMapping("/user/view")
@@ -114,4 +116,55 @@ public class HomeController {
         message = "";
         return new RedirectView("/");
     }
+
+	// project endpoints
+
+	@GetMapping("/project/all")
+	public String getProjects(Model model){
+		try{
+
+			System.out.println("fetching projects ...");
+
+			List<ClientDto> projectList = _projectService.getAll();
+
+			for(ClientDto dto : projectList){
+				System.out.println("client id: "+dto.projectId);
+			}
+
+			model.addAttribute("project_list",projectList);
+			return "projects";
+		}
+		catch(Exception ex){
+
+			System.out.println("getProjects error: "+ex.getMessage());
+			message += ex.getMessage();
+			return "projects_error";
+		}
+	}
+
+	@PostMapping("/project/create")
+	public RedirectView createProject(
+		@ModelAttribute("project_form_dto") ProjectFormDto dto,
+		Model model
+	){
+		try{
+			System.out.println("creating project ...");
+
+			var clientDto = new ClientDto();
+			clientDto.url = dto.getProjectUrl();
+			clientDto.apiUrl = dto.getApiUrl();
+			clientDto.projectId = dto.getProjectId();
+
+			var status = _projectService.create(clientDto);
+			message += "project created : " + status;
+
+			return new RedirectView("/");
+		}
+		catch(Exception ex){
+
+			System.out.println("createProjects error: "+ex.getMessage());
+			message += ex.getMessage();
+			return new RedirectView("/");
+		}
+	}
 }

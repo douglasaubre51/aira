@@ -1,264 +1,317 @@
 @font-face {
-    font-family: 'Poppins';
-    src: url(../fonts/Poppins-Regular.ttf);
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Regular.ttf);
 }
 
 @font-face {
-    font-family: 'Poppins-Light';
-    src: url(../fonts/Poppins-Light.ttf);
+  font-family: "Poppins-Light";
+  src: url(../fonts/Poppins-Light.ttf);
 }
 
 @font-face {
-    font-family: 'Poppins-Bold';
-    src: url(../fonts/Poppins-Bold.ttf);
+  font-family: "Poppins-Bold";
+  src: url(../fonts/Poppins-Bold.ttf);
 }
 
 @font-face {
-    font-family: 'Poppins-Thin';
-    src: url(../fonts/Poppins-Thin.ttf);
+  font-family: "Poppins-Thin";
+  src: url(../fonts/Poppins-Thin.ttf);
 }
 
 :root {
-    --light-turqoise: #87ceeb;
+  --light-turqoise: #87ceeb;
 }
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 
-    user-select: none;
-    letter-spacing: 1.5px;
+  user-select: none;
+  letter-spacing: 1.5px;
 }
 
 body {
-    font-family: Poppins-Bold;
-    background-color: #efefef;
-    min-width: 1000px;
+  font-family: Poppins-Bold;
+  background-color: #efefef;
+  min-width: 1000px;
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: 1fr 2.5fr;
-    grid-template-rows: 1fr;
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  grid-template-rows: 1fr;
 
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .sidebar {
-    background-color: #f8f8f8;
-    padding: 40px 30px 5px 30px;
+  background-color: #f8f8f8;
+  padding: 40px 30px 5px 30px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 
-    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
 .sidebar-header {
-    font-family: Poppins;
-    font-size: 16px;
+  font-family: Poppins;
+  font-size: 16px;
 }
 
 .nav-btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .nav-btn {
-    width: 100%;
-    padding: 10px 0px;
-    padding-left: 20px;
-    background-color: white;
+  width: 100%;
+  padding: 10px 0px;
+  padding-left: 20px;
+  background-color: white;
 
-    border: none;
-    border-radius: 5px;
+  border: none;
+  border-radius: 5px;
 
-    text-align: start;
-    font-size: 12px;
-    font-family: Poppins-Light;
+  text-align: start;
+  font-size: 12px;
+  font-family: Poppins-Light;
 
-    transition-duration: .2s;
+  transition-duration: 0.2s;
 }
 
 .nav-btn-active {
-    background-color: var(--light-turqoise);
-    color: whitesmoke;
+  background-color: var(--light-turqoise);
+  color: whitesmoke;
 }
 
 .nav-btn:focus,
 .nav-btn:hover {
-    transition-duration: .2s;
+  transition-duration: 0.2s;
 
-    outline: none;
-    background-color: var(--light-turqoise);
-    color: white;
+  outline: none;
+  background-color: var(--light-turqoise);
+  color: white;
 }
 
 .main-section {
-    padding: 20px 40px;
+  padding: 20px 40px;
 
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 100px 2fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px 2fr 1fr;
 }
 
 .top-bar {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #add-person-btn-icon {
-    width: 25px;
-    height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 #add-person-btn {
+  width: fit-content;
+  height: fit-content;
 
-    width: fit-content;
-    height: fit-content;
+  outline: none;
+  border: none;
+  align-self: flex-end;
+  margin-right: 24px;
 
-    outline: none;
-    border: none;
-    align-self: flex-end;
-    margin-right: 24px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
 
-    background-color: white;
-    border-radius: 5px;
-    padding: 5px;
-
-    transition-duration: .2s;
+  transition-duration: 0.2s;
 }
 
 #add-person-btn:hover {
-    transition-duration: .2s;
-    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 1px;
+  transition-duration: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
 /* add person modal */
 #add-person-popover {
-    display: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  display: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-    width: 400px;
-    height: max-content;
+  width: 400px;
+  height: max-content;
 
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 10px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 10px;
 }
 
 #add-person-popover:popover-open {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#add-project-btn {
+  display: none;
+
+  width: fit-content;
+  height: fit-content;
+
+  outline: none;
+  border: none;
+  align-self: flex-end;
+  margin-right: 24px;
+
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+
+  transition-duration: 0.2s;
+}
+
+#add-project-btn:hover {
+  transition-duration: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
+}
+
+/* add project modal */
+#add-project-popover {
+  display: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 400px;
+  height: max-content;
+
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 10px;
+}
+
+#add-project-popover:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group input[type="text"],
+input[type="email"],
+input[type="password"] {
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid gray;
+
+  padding: 5px 0px;
+  max-width: fit-content;
 }
 
 .hero-header {
-    color: lightcoral;
-    font-size: 40px;
-    font-family: Poppins-Light;
+  color: lightcoral;
+  font-size: 40px;
+  font-family: Poppins-Light;
 }
 
 /* iframe */
 #main-view {
-    height: 90%;
-    width: 100%;
+  height: 90%;
+  width: 100%;
 
-    border: none;
+  border: none;
 }
 
-input[type='text'] {
-    border-radius: 4px;
-    outline: none;
-    border: none;
+input[type="text"] {
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid gray;
 
-    padding: 5px 0px;
-    max-width: fit-content;
+  padding: 5px 0px;
+  max-width: fit-content;
 }
 
-input[type='submit'] {
-    background-color: black;
-    color: whitesmoke;
+input[type="submit"] {
+  background-color: black;
+  color: whitesmoke;
 
-    font-family: Poppins;
+  font-family: Poppins;
 
-    border: none;
-    border-radius: 4px;
+  border: none;
+  border-radius: 4px;
 
-    padding: 10px 0px;
+  padding: 10px 0px;
 
-    width: 100%;
+  width: 100%;
 
-    transition-duration: .2s;
+  transition-duration: 0.2s;
 }
 
+input[type="submit"]:hover {
+  background-color: white;
+  color: black;
 
-input[type='submit']:hover {
-    background-color: white;
-    color: black;
-
-    transition-duration: .2s;
-    cursor: pointer;
+  transition-duration: 0.2s;
+  cursor: pointer;
 }
 
 .error-container {
-    grid-row: 3;
-    grid-column: 1;
+  grid-row: 3;
+  grid-column: 1;
 
-    background-color: #f8f8f8;
-    border-radius: 8px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
 
-    padding: 10px 20px;
+  padding: 10px 20px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-    box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
 .error-header {
-    font-size: 16px;
-    font-family: Poppins-Light;
-    color: black;
+  font-size: 16px;
+  font-family: Poppins-Light;
+  color: black;
 }
 
 .error-message {
-    font-size: 12px;
-    font-family: Poppins-Light;
-    color: grey;
-    line-height: 2;
+  font-size: 12px;
+  font-family: Poppins-Light;
+  color: grey;
+  line-height: 2;
 }
 
 .error-tab-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .clear-error-btn {
-    background-color: transparent;
-    border: none;
-    color: black;
+  background-color: transparent;
+  border: none;
+  color: black;
 
-    font-family: Poppins;
-    font-size: 10px;
+  font-family: Poppins;
+  font-size: 10px;
 }
 
 .clear-error-btn:hover {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
