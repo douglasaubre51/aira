@@ -20,6 +20,7 @@
 
 :root {
   --light-turqoise: #87ceeb;
+  --special-grey: #efefef;
 }
 
 * {
@@ -33,7 +34,7 @@
 
 body {
   font-family: Poppins-Bold;
-  background-color: #efefef;
+  background-color: var(--special-grey);
   min-width: 1000px;
 }
 
@@ -138,27 +139,6 @@ body {
   box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
-/* add person modal */
-#add-person-popover {
-  display: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 400px;
-  height: max-content;
-
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 10px;
-}
-
-#add-person-popover:popover-open {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 #add-project-btn {
   display: none;
 
@@ -182,25 +162,39 @@ body {
   box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
-/* add project modal */
-#add-project-popover {
+/* add project add person modals */
+#add-project-popover,
+#add-person-popover {
   display: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 400px;
-  height: max-content;
+  background-color: var(--special-grey);
+
+  padding: 40px 80px;
 
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 10px;
 }
 
-#add-project-popover:popover-open {
+#add-project-popover :popover-open,
+#add-person-popover :popover-open {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+#add-project-popover form,
+#add-person-popover form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-group {
@@ -209,7 +203,7 @@ body {
   gap: 5px;
 }
 
-.form-group input[type="text"],
+input[type="text"],
 input[type="email"],
 input[type="password"] {
   border-radius: 4px;
@@ -234,13 +228,25 @@ input[type="password"] {
   border: none;
 }
 
-input[type="text"] {
-  border-radius: 4px;
-  outline: none;
-  border: 1px solid gray;
+#add-person-popover button,
+#add-project-popover button {
+  padding: 10px 0px;
 
-  padding: 5px 0px;
-  max-width: fit-content;
+  width: 100%;
+
+  border: none;
+  border-radius: 4px;
+
+  background-color: lightblue;
+
+  transition-duration: 0.2s;
+
+  font-family: Poppins-Light;
+}
+#add-person-popover button:hover,
+#add-project-popover button:hover {
+  transition-duration: 0.2s;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
 input[type="submit"] {

@@ -123,13 +123,7 @@ public class HomeController {
 	public String getProjects(Model model){
 		try{
 
-			System.out.println("fetching projects ...");
-
 			List<ClientDto> projectList = _projectService.getAll();
-
-			for(ClientDto dto : projectList){
-				System.out.println("client id: "+dto.projectId);
-			}
 
 			model.addAttribute("project_list",projectList);
 			return "projects";
@@ -156,7 +150,6 @@ public class HomeController {
 			clientDto.projectId = dto.getProjectId();
 
 			var status = _projectService.create(clientDto);
-			message += "project created : " + status;
 
 			return new RedirectView("/");
 		}
@@ -165,6 +158,27 @@ public class HomeController {
 			System.out.println("createProjects error: "+ex.getMessage());
 			message += ex.getMessage();
 			return new RedirectView("/");
+		}
+	}
+
+	@GetMapping("/project/delete/{id}")
+	public String removeProject(
+		@PathVariable String id,
+		Model model
+	){
+		try{
+			_projectService.remove(id);
+
+			List<ClientDto> projectList = _projectService.getAll();
+			model.addAttribute("project_list",projectList);
+
+			return "projects";
+		}
+		catch(Exception ex){
+
+			System.out.println("createProjects error: "+ex.getMessage());
+			message += ex.getMessage();
+			return "projects";
 		}
 	}
 }
