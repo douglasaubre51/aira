@@ -13,6 +13,7 @@
         <span th:text="${user.FirstName}"></span>
         <span th:text="${user.Email}"></span>
         <span th:text="${user.EmailConfirmed}? 'verified' : ''"></span>
+        <a th:href="@{/user/delete/{email}(email=${user.Email})}">delete</a>
       </div>
     </div>
   </body>
