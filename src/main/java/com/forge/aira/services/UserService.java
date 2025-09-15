@@ -34,18 +34,9 @@ public class UserService {
         return dto.getUsers();
     }
 
-    public boolean removeUserByUserName(String userName) {
-
-        System.out.println("hi i am removeUser");
-        String uri = "/user/delete/" + userName;
-
+    public void removeByEmailId(String email) {
+        String uri = "/user/delete/" + email;
         ResponseEntity<Object> response = _template.getForEntity(host + uri, Object.class);
-        HttpStatusCode statusCode = response.getStatusCode();
-        if (statusCode.is2xxSuccessful() == false) {
-            return false;
-        }
-
-        return true;
     }
 
     public boolean createNewUser(PrimaryFormDto dto) {

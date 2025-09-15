@@ -16,169 +16,190 @@ import com.forge.aira.services.*;
 public class HomeController {
 
     @Value("${WAGURI_BASE_URI}")
-    private String host;
+	private String host;
     private String message;
 
     private final UserService _userService;
     private final ApiService _apiService;
-	private final ProjectService _projectService;
+    private final ProjectService _projectService;
 
     public HomeController(
-            UserService userService,
-            ApiService apiService,
-			ProjectService projectService
-			) {
+	    UserService userService,
+	    ApiService apiService,
+	    ProjectService projectService
+	    ) {
 
-        _userService = userService;
-        _apiService = apiService;
-		_projectService = projectService;
+	_userService = userService;
+	_apiService = apiService;
+	_projectService = projectService;
 
-        message = new String();
+	message = new String();
     }
 
-	// user endpoints
+    // user endpoints
 
     // index view
     @GetMapping("/")
-    public String getHomeView(Model model) {
-        try {
+	public String getHomeView(Model model) {
+	    try {
 
-            // init attributes
-            model.addAttribute("message", message);
-            model.addAttribute("primary_form_dto", new PrimaryFormDto());
-            model.addAttribute("project_form_dto", new ProjectFormDto());
+		// init attributes
+		model.addAttribute("message", message);
+		model.addAttribute("primary_form_dto", new PrimaryFormDto());
+		model.addAttribute("project_form_dto", new ProjectFormDto());
 
-            boolean result = _apiService.getApiStatus();
-            if (!result)
-                model.addAttribute("waguri_status", "lost");
-            else
-                model.addAttribute("waguri_status", "live");
+		boolean result = _apiService.getApiStatus();
+		if (!result)
+		    model.addAttribute("waguri_status", "lost");
+		else
+		    model.addAttribute("waguri_status", "live");
 
-            return "index";
+		return "index";
 
-        } catch (ResourceAccessException ex) {
+	    } catch (ResourceAccessException ex) {
 
-            model.addAttribute("waguri_status", "lost");
-            System.out.println("conn lost: " + ex.getMessage());
-            return "index";
+		model.addAttribute("waguri_status", "lost");
+		System.out.println("conn lost: " + ex.getMessage());
+		return "index";
 
-        } catch (Exception ex) {
+	    } catch (Exception ex) {
 
-            model.addAttribute("message", ex.getMessage());
-            System.out.println("getHomeView error: " + ex.getMessage());
-            return "error";
-        }
-    }
-
-    @PostMapping("/user/create")
-    public RedirectView createUser(@ModelAttribute("primary_form_dto") PrimaryFormDto dto) {
-        try {
-            System.out.println("triggered create user!");
-
-            boolean result = _userService.createNewUser(dto);
-            if (result == false)
-                message += "couldnot create new user!";
-            else
-                message += "user created successfully!";
-
-            return new RedirectView("/");
-
-        } catch (Exception ex) {
-
-			message += ex.getMessage();
-            return new RedirectView("/");
-        }
-    }
-
-    @GetMapping("/user/view")
-    public String getUserView(Model model) {
-        try {
-
-            List<UserDto> users = _userService.getUsers();
-            model.addAttribute("user_list", users);
-
-            return "users";
-
-        } catch (ResourceAccessException ex) {
-            return "users_error";
-        } catch (Exception ex) {
-
-            model.addAttribute("message", ex.getMessage());
-
-            System.out.println("getHomeView error: " + ex.getMessage());
-            return "error";
-        }
-    }
-
-    @GetMapping("/message/clear")
-    public RedirectView clearMessages() {
-
-        message = "";
-        return new RedirectView("/");
-    }
-
-	// project endpoints
-
-	@GetMapping("/project/all")
-	public String getProjects(Model model){
-		try{
-
-			List<ClientDto> projectList = _projectService.getAll();
-
-			model.addAttribute("project_list",projectList);
-			return "projects";
-		}
-		catch(Exception ex){
-
-			System.out.println("getProjects error: "+ex.getMessage());
-			message += ex.getMessage();
-			return "projects_error";
-		}
+		model.addAttribute("message", ex.getMessage());
+		System.out.println("getHomeView error: " + ex.getMessage());
+		return "error";
+	    }
 	}
 
-	@PostMapping("/project/create")
+    @PostMapping("/user/create")
+	public RedirectView createUser(@ModelAttribute("primary_form_dto") PrimaryFormDto dto) {
+	    try {
+		System.out.println("triggered create user!");
+
+		boolean result = _userService.createNewUser(dto);
+		if (result == false)
+		    message += "couldnot create new user!";
+		else
+		    message += "user created successfully!";
+
+		return new RedirectView("/");
+
+	    } catch (Exception ex) {
+
+		message += ex.getMessage();
+		return new RedirectView("/");
+	    }
+	}
+
+    @GetMapping("/user/delete/{email}")
+	public String removeUser(
+	@PathVariable String email,
+	Model model
+	){
+	    try{
+
+		_userService.removeByEmailId(email);
+
+		List<UserDto> users = _userService.getUsers();
+		model.addAttribute("user_list", users);
+
+		return "users";
+	    }
+	    catch(Exception ex){
+		System.out.println("removeUser error: "+ex.getMessage());
+		message += ex.getMessage();
+		return "users";
+	    }
+	}
+
+    @GetMapping("/user/view")
+	public String getUserView(Model model) {
+	    try {
+
+		List<UserDto> users = _userService.getUsers();
+		model.addAttribute("user_list", users);
+
+		return "users";
+
+	    } catch (ResourceAccessException ex) {
+		return "users_error";
+	    } catch (Exception ex) {
+
+		model.addAttribute("message", ex.getMessage());
+
+		System.out.println("getHomeView error: " + ex.getMessage());
+		return "error";
+	    }
+	}
+
+    @GetMapping("/message/clear")
+	public RedirectView clearMessages() {
+
+	    message = "";
+	    return new RedirectView("/");
+	}
+
+    // project endpoints
+
+    @GetMapping("/project/all")
+	public String getProjects(Model model){
+	    try{
+
+		List<ClientDto> projectList = _projectService.getAll();
+
+		model.addAttribute("project_list",projectList);
+		return "projects";
+	    }
+	    catch(Exception ex){
+
+		System.out.println("getProjects error: "+ex.getMessage());
+		message += ex.getMessage();
+		return "projects_error";
+	    }
+	}
+
+    @PostMapping("/project/create")
 	public RedirectView createProject(
 		@ModelAttribute("project_form_dto") ProjectFormDto dto,
 		Model model
-	){
-		try{
-			System.out.println("creating project ...");
+		){
+	    try{
+		System.out.println("creating project ...");
 
-			var clientDto = new ClientDto();
-			clientDto.url = dto.getProjectUrl();
-			clientDto.apiUrl = dto.getApiUrl();
-			clientDto.projectId = dto.getProjectId();
+		var clientDto = new ClientDto();
+		clientDto.url = dto.getProjectUrl();
+		clientDto.apiUrl = dto.getApiUrl();
+		clientDto.projectId = dto.getProjectId();
 
-			var status = _projectService.create(clientDto);
+		var status = _projectService.create(clientDto);
 
-			return new RedirectView("/");
-		}
-		catch(Exception ex){
+		return new RedirectView("/");
+	    }
+	    catch(Exception ex){
 
-			System.out.println("createProjects error: "+ex.getMessage());
-			message += ex.getMessage();
-			return new RedirectView("/");
-		}
+		System.out.println("createProjects error: "+ex.getMessage());
+		message += ex.getMessage();
+		return new RedirectView("/");
+	    }
 	}
 
-	@GetMapping("/project/delete/{id}")
+    @GetMapping("/project/delete/{id}")
 	public String removeProject(
 		@PathVariable String id,
 		Model model
-	){
-		try{
-			_projectService.remove(id);
+		){
+	    try{
+		_projectService.remove(id);
 
-			List<ClientDto> projectList = _projectService.getAll();
-			model.addAttribute("project_list",projectList);
+		List<ClientDto> projectList = _projectService.getAll();
+		model.addAttribute("project_list",projectList);
 
-			return "projects";
-		}
-		catch(Exception ex){
+		return "projects";
+	    }
+	    catch(Exception ex){
 
-			System.out.println("createProjects error: "+ex.getMessage());
-			message += ex.getMessage();
-			return "projects";
-		}
+		System.out.println("createProjects error: "+ex.getMessage());
+		message += ex.getMessage();
+		return "projects";
+	    }
 	}
 }
