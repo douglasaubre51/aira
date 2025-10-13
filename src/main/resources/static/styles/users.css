@@ -33,6 +33,7 @@ body {
 }
 
 .user-row {
+    position: relative;
     background-color: white;
     padding: 20px;
     border-radius: 4px;
@@ -45,4 +46,9 @@ body {
 
 .user-row:hover {
     box-shadow: rgba(0, 0, 0, .1) 1px 1px 10px 1px;
+}
+
+#context-menu {
+    display: none;
+    position: absolute;
 }

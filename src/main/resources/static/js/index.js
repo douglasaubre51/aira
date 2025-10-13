@@ -1,5 +1,7 @@
 console.log('index.js is running ...');
 
+// to show navbar toggling
+
 const userNavBtn = document.getElementById('users-view')
 const projectNavBtn = document.getElementById('projects-view')
 const mainView = document.getElementById('main-view')

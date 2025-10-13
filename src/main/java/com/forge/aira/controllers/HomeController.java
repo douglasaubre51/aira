@@ -7,14 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.forge.aira.dtos.EmailDto;
 import com.forge.aira.dtos.PrimaryFormDto;
 import com.forge.aira.dtos.UserDto;
 import com.forge.aira.services.ApiService;
 import com.forge.aira.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -43,6 +46,7 @@ public class HomeController {
             // init attributes
             model.addAttribute("message", message);
             model.addAttribute("primary_form_dto", new PrimaryFormDto());
+            model.addAttribute("email_dto", new EmailDto());
 
             boolean result = _apiService.getApiStatus();
             if (!result)
@@ -77,15 +81,32 @@ public class HomeController {
             if (result == false)
                 message += "couldnot create new user!";
             else
-                message = "user created successfully!";
+                message += "user created successfully!";
 
             return new RedirectView("/");
 
         } catch (Exception ex) {
-            message = ex.getMessage();
+
+            message += ex.getMessage();
             return new RedirectView("/");
         }
 
+    }
+
+    @PostMapping("/user/remove")
+    public RedirectView removeUser(@ModelAttribute("email_dto") EmailDto dto) {
+        try {
+
+            System.out.println(dto.getEmail());
+
+            return new RedirectView("/");
+
+        } catch (Exception ex) {
+
+            System.out.println("removeUser error: " + ex.getMessage());
+            message += ex.getMessage();
+            return new RedirectView("/");
+        }
     }
 
     @GetMapping("/user/view")

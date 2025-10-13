@@ -10,12 +10,26 @@
 
 <body>
     <div class="user-container" th:each="user : ${user_list}">
-        <div class="user-row">
+        <div class="user-row" content="${user.Email}">
             <span th:text="${user.FirstName}"></span>
             <span th:text="${user.Email}"></span>
             <span th:text="${user.EmailConfirmed}? 'verified' : ''"></span>
+
+            <form action="#" th:action="@{/user/remove}" th:object="${email_dto}" method="post">
+                <input type="hidden" th:field="*{Email}" />
+
+                <button type="submit">
+                    x
+                </button>
+            </form>
         </div>
+
     </div>
+
 </body>
+<script>
+    console.log('users.js is running ...')
+
+</script>
 
 </html>
