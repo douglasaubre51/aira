@@ -9,104 +9,142 @@
 </head>
 
 <body>
-    <div class="grid-container">
-        <!-- side bar -->
-        <div class="sidebar">
-            <span class="sidebar-header">
-                Manage
-            </span>
 
-            <div class="nav-btn-group">
-                <button class="nav-btn" id="users-view">
-                    Users
-                </button>
-                <button class="nav-btn" id="projects-view">
-                    Projects
-                </button>
+    <div class="grid-container">
+        <!--hero section-->
+        <div class="hero-container">
+            <span class="hero-tag">
+                waguri
+            </span>
+        </div>
+
+        <!-- waguri status -->
+        <div class="conn-container">
+            <span class="conn">connection</span>
+            <span id="waguriStatus" class='conn-lost' th:text="${waguri_status}"></span>
+        </div>
+
+        <!-- user details -->
+        <div class="details-container">
+
+            <!--nav bar-->
+            <div class="navbar-container">
+                <ul class="navbar">
+                    <li id="gotoUserDetails">
+                        <button th:onclick="gotoUserDetails()" id="detailsTag">
+                            User details
+                        </button>
+                    </li>
+                    <li id="gotoCreateUser">
+                        <button th:onclick="gotoCreateUser()" id="createTag">
+                            Create User
+                        </button>
+                    </li>
+                    <li id="gotoConfirmUser">
+                        <button th:onclick="gotoConfirmUser()" id="confirmTag">
+                            Confirm User
+                        </button>
+                    </li>
+                    <li id="gotoRemoveUser">
+                        <button th:onclick="gotoRemoveUser()" id="removeTag">
+                            Remove User
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- user details-->
+            <table id="detailsTable">
+                <tr class="header-row">
+                    <th>username</th>
+                    <th>email confirmed</th>
+                </tr>
+                <tr th:each="user : ${user_list}">
+                    <td th:text="${user.UserName}"></td>
+                    <td th:text="${user.EmailConfirmed}"></td>
+                </tr>
+            </table>
+
+            <div id="createUser" class="create-user-container">
+                <form action="#" th:action="@{/create-user}" th:object="${create_user_form}" method="post">
+                    <div class="form-group">
+                        <span class="label">
+                            Email id
+                        </span>
+                        <input type="email" th:field="*{Email}" />
+                    </div>
+
+                    <div class="form-group">
+                        <span class="label">
+                            First name
+                        </span>
+                        <input type="text" th:field="*{FirstName}" />
+                    </div>
+
+                    <div class="form-group">
+                        <span class="label">
+                            Last name
+                        </span>
+                        <input type="text" th:field="*{LastName}" />
+                    </div>
+
+                    <div class="form-group">
+                        <span class="label">
+                            Password
+                        </span>
+                        <input type="password" th:field="*{Password}" />
+                    </div>
+
+                    <div class="form-group">
+                        <span class="label">
+                            Project id
+                        </span>
+                        <input type="text" th:field="*{ProjectId}" />
+                    </div>
+
+                    <input type="submit" />
+                </form>
+            </div>
+
+            <div id="confirmUser" class="confirm-user-container">
+                <span class="label">
+                    username
+                </span>
+                <form action="#" th:action="@{/confirm-user}" th:object="${confirm_user_form}" method="post">
+                    <input type="text" th:field="*{UserName}" />
+                    <input type="submit" />
+                </form>
+            </div>
+
+            <div id="removeUser" class="remove-user-container">
+                <span class="label">
+                    username
+                </span>
+                <form action="#" th:action="@{/remove-user}" th:object="${FieldDto}" method="post">
+                    <input type="text" th:field="*{UserName}" />
+                    <input type="submit" />
+                </form>
             </div>
 
         </div>
-        <!-- main section -->
-        <div class="main-section">
-            <!-- top bar -->
-            <div class="top-bar">
-                <span class="hero-header" id="waguri-status">
-                    waguri
+
+        <!--error section-->
+        <div class="error-container">
+            <div class="error-tab-container">
+                <span class="error-header">
+                    Error messages
                 </span>
-                <!-- add person btn -->
-                <button id="add-person-btn" popovertarget="add-person-popover">
-                    <img th:src="@{/icons/person_add.svg}" id="add-person-btn-icon" />
+
+                <button class="clear-error-btn" th:onclick="|window.location.href='@{/clear-error-messages}'|">
+                    clear
                 </button>
-                <!-- add person modal -->
-                <div popover id="add-person-popover">
-                    <form action="#" th:action="@{/user/create}" th:object="${primary_form_dto}" method="post">
-                        <div class="form-group">
-                            <span class="label">
-                                First name
-                            </span>
-                            <input type="text" th:field="*{FirstName}">
-                        </div>
-                        <div class="form-group">
-                            <span class="label">
-                                Last name
-                            </span>
-                            <input type="text" th:field="*{LastName}">
-                        </div>
-                        <div class="form-group">
-                            <span class="label">
-                                Email id
-                            </span>
-                            <input th:field="*{Email}" type="text">
-                        </div>
-                        <div class="form-group">
-                            <span class="label">
-                                Password
-                            </span>
-                            <input th:field="*{Password}" type="password">
-                        </div>
-                        <div class="form-group">
-                            <span class="label">
-                                Project id
-                            </span>
-                            <input th:field="*{ProjectId}" type="text">
-                        </div>
-
-                        <button class="primary-btn" type="submit">
-                            add user
-                        </button>
-                    </form>
-                </div>
             </div>
 
-            <!-- web view -->
-            <iframe th:src="@{/user/view}" id="main-view"></iframe>
-
-            <!-- status view -->
-            <div class="error-container">
-                <div class="error-tab-container">
-                    <span class="error-header">
-                        message
-                    </span>
-                    <button class="clear-error-btn" th:onclick="|window.location.href='@{/message/clear}'|">
-                        clear
-                    </button>
-
-                </div>
-                <span th:text="${message}" class="error-message"></span>
-            </div>
-
+            <span class="error-message" th:text="${error_message}">
+            </span>
         </div>
     </div>
 </body>
-<script>
-    console.log(`checking waguri connection ...`)
-    const waguriStatus = '[[${waguri_status}]]'
-
-    console.log(`waguri status: ${waguriStatus}`)
-    if (waguriStatus == 'live')
-        document.getElementById('waguri-status').style.color = 'green'
-</script>
-
 <script type="text/javascript" th:src="@{js/index.js}"></script>
 
 </html>
