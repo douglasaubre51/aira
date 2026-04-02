@@ -129,7 +129,7 @@ body {
 
   background-color: white;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px 16px;
 
   transition-duration: 0.2s;
 }
@@ -152,7 +152,7 @@ body {
 
   background-color: white;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px 16px;
 
   transition-duration: 0.2s;
 }
@@ -243,6 +243,7 @@ input[type="password"] {
 
   font-family: Poppins-Light;
 }
+
 #add-person-popover button:hover,
 #add-project-popover button:hover {
   transition-duration: 0.2s;

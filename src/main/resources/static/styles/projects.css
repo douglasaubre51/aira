@@ -33,12 +33,27 @@ td {
 }
 
 th {
-  background-color: lightblue;
-  color: whitesmoke;
+  color: black;
   font-family: "Poppins";
   border: whitesmoke;
 }
+
 td {
   font-family: "Poppins-Light";
   border: whitesmoke;
+}
+
+button {
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #795548;
+  color: #EFEBE9;
+  border: none;
+  transition-duration: .1s;
+}
+
+button:active {
+  transition-duration: .3s;
+  background-color: #efebe9;
+  color: #795548;
 }

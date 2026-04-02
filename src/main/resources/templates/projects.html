@@ -1,25 +1,26 @@
 <!doctype html>
 <html xmlns:th="https://www/thymeleaf.org">
-  <head>
-    <link th:href="@{/styles/projects.css}" rel="stylesheet" />
-  </head>
-  <body>
-    <table>
-      <tr>
-        <th>Project id</th>
-        <th>Project url</th>
-        <th>Api url</th>
-      </tr>
-      <tr th:each="project : ${project_list}" class="project-container">
-        <td th:text="${project.ProjectId}" class="id-text"></td>
-        <td th:text="${project.Url}" class="url-text"></td>
-        <td th:text="${project.ApiUrl}" class="url-text"></td>
-        <td class="delete-btn-row">
-          <a th:href="@{/project/delete/{id}(id=${project.ProjectId})}"
-            >delete</a
-          >
-        </td>
-      </tr>
-    </table>
-  </body>
+
+<head>
+  <link th:href="@{/styles/projects.css}" rel="stylesheet" />
+</head>
+
+<body>
+  <table>
+    <tr>
+      <th>Project id</th>
+      <th>Project url</th>
+      <th>Api url</th>
+    </tr>
+    <tr th:each="project : ${project_list}" class="project-container">
+      <td th:text="${project.ProjectId}" class="id-text"></td>
+      <td th:text="${project.Url}" class="url-text"></td>
+      <td th:text="${project.ApiUrl}" class="url-text"></td>
+      <td class="delete-btn-row">
+        <a th:href="@{/project/delete/{id}(id=${project.ProjectId})}"><button>Delete</button></a>
+      </td>
+    </tr>
+  </table>
+</body>
+
 </html>
