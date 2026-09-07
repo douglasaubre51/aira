@@ -1,22 +1,28 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link th:href="@{/styles/users.css}" rel="stylesheet" />
+        <title>Users</title>
+    </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link th:href="@{/styles/users.css}" rel="stylesheet" />
-  <title>Users</title>
-</head>
+    <body>
+        <div class="user-container" th:each="user : ${user_list}">
+            <div class="user-row">
+                <div class="name-section">
+                    <span class="user-name" th:text="${user.FirstName}"></span>
+                    <span class="user-id" th:text="${user.UserId}"></span>
+                </div>
 
-<body>
-  <div class="user-container" th:each="user : ${user_list}">
-    <div class="user-row">
-      <span th:text="${user.FirstName}"></span>
-      <span th:text="${user.Email}"></span>
-      <span th:text="${user.EmailConfirmed}? 'verified' : ''"></span>
-      <a class="delete-link" th:href="@{/user/delete/{email}(email=${user.Email})}">Delete</a>
-    </div>
-  </div>
-</body>
-
+                <span th:text="${user.Email}"></span>
+                <span th:text="${user.EmailConfirmed}? 'verified' : ''"></span>
+                <a
+                    class="delete-link"
+                    th:href="@{/user/delete/{email}(email=${user.Email})}"
+                    >Delete</a
+                >
+            </div>
+        </div>
+    </body>
 </html>

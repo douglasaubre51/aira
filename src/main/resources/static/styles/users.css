@@ -1,56 +1,68 @@
 @font-face {
-  font-family: "Poppins";
-  src: url(../fonts/Poppins-Regular.ttf);
+    font-family: "Poppins";
+    src: url(../fonts/Poppins-Regular.ttf);
 }
 
 @font-face {
-  font-family: "Poppins-Light";
-  src: url(../fonts/Poppins-Light.ttf);
+    font-family: "Poppins-Light";
+    src: url(../fonts/Poppins-Light.ttf);
 }
 
 @font-face {
-  font-family: "Poppins-Bold";
-  src: url(../fonts/Poppins-Bold.ttf);
+    font-family: "Poppins-Bold";
+    src: url(../fonts/Poppins-Bold.ttf);
 }
 
 @font-face {
-  font-family: "Poppins-Thin";
-  src: url(../fonts/Poppins-Thin.ttf);
+    font-family: "Poppins-Thin";
+    src: url(../fonts/Poppins-Thin.ttf);
 }
 
 body {
-  letter-spacing: 1.5px;
+    letter-spacing: 1.5px;
 }
 
 body::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .user-container {
-  padding: 10px 0px;
+    padding: 10px 0px;
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  font-family: Poppins-Light;
-  font-size: 14px;
+    font-family: Poppins-Light;
+    font-size: 14px;
 }
 
 .user-row {
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .user-row:hover {
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 10px 1px;
 }
 
 .delete-link {
-  color: red;
-  text-decoration: none;
+    color: red;
+    text-decoration: none;
+}
+
+.name-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 700;
+}
+.user-id {
+    font-size: 8px;
 }
